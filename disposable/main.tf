@@ -26,7 +26,7 @@ data "aws_ami" "amazon-linux" {
 ### REDE
 
 data "aws_security_group" "web_security_group" {
-  name = "access_cluster_SG"
+  name = "access_cluster_SG_2"
 }
 
 data "aws_efs_file_system" "efs-platform" {

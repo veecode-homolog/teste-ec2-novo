@@ -9,7 +9,7 @@ data "aws_subnet" "selected" {
 }
 
 resource "aws_security_group" "web_security_group" {
-  name        = "access_cluster_SG"
+  name        = "access_cluster_SG_2"
   description = "Allow SSH and HTTP"
   vpc_id      = data.aws_vpc.selected.id
   ingress {
