@@ -1,0 +1,19 @@
+prometheus-stack:
+  enabled: true
+  helmArgs:
+    prometheus:
+      prometheusSpec:
+        enableRemoteWriteReceiver: true
+        remoteWrite:
+        - name: prometheus-central
+          sendExemplars: true
+          url: http://prometheus.apr.vee.codes/api/v1/write
+          writeRelabelConfigs:
+          - regex: (.+)
+            # replacement: Will be filled in the pipeline ex.: platform_xpto_$1 
+            sourceLabels:
+            - __name__
+            targetLabel: __name__
+        externalLabels:
+          cluster: teste-ec2-novo
+          # replacement:   Will be filled in the pipeline ex.: xpto
