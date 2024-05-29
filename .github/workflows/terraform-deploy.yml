@@ -43,12 +43,13 @@ jobs:
       - name: Terraform Plan Disposable
         id: plan_disposable
         run: |
-          cd ../disposable
+          cd ./disposable
           terraform init
           terraform plan -no-color -out plan_cache.json 
 
       - name: Terraform apply Disposable
         run: |
+          cd ./disposable
           terraform apply -input=false -no-color -auto-approve plan_cache.json          
 
   kubeconfig:
