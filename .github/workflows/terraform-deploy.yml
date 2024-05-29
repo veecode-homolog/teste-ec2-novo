@@ -1,7 +1,7 @@
 name: Create
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: 
 env:
   PORT: 6550
   USERNAME: ec2-user   
