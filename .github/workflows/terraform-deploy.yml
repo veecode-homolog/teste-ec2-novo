@@ -28,20 +28,27 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Terraform Plan
+      - name: Terraform Plan Persistent
         id: plan
         run: |
           cd ./persistent
           terraform init
           terraform plan -no-color -out plan_cache.json 
+
+      - name: Terraform apply Persistent
+        run: |
+          terraform apply -input=false -no-color -auto-approve plan_cache.json
+
+      - name: Terraform Plan Disposable
+        id: plan
+        run: |
           cd ../disposable
           terraform init
           terraform plan -no-color -out plan_cache.json 
 
-      - name: Terraform apply
+      - name: Terraform apply Disposable
         run: |
-          terraform apply -input=false -no-color -auto-approve /persistent/plan_cache.json
-          terraform apply -input=false -no-color -auto-approve /disposable/plan_cache.json
+          terraform apply -input=false -no-color -auto-approve plan_cache.json          
 
   kubeconfig:
     runs-on: ubuntu-latest
