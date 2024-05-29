@@ -37,6 +37,7 @@ jobs:
 
       - name: Terraform apply Persistent
         run: |
+          cd ./persistent
           terraform apply -input=false -no-color -auto-approve plan_cache.json
 
       - name: Terraform Plan Disposable
