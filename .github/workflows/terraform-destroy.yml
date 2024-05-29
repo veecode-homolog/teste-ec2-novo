@@ -22,11 +22,18 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Terraform Init
-        id: init
+      - name: Terraform Init Persistent
+        id: init_persistent
         run: |
-             cat main.tf 
-             terraform init
+            cd ./persistent
+            cat main.tf 
+            terraform init
+      - name: Terraform Init Disposable
+        id: init_disposable
+        run: |
+            cd ./disposable
+            cat main.tf 
+            terraform init
   destroy:
     runs-on: ubuntu-latest
     needs: init
