@@ -5,22 +5,16 @@ metadata:
   environment:
     cluster_type: ec2
     domain: vkpr.platform.vee.codes
+    public_ip: 34.192.28.152
   annotations:
     github.com/project-slug: veecode-homolog/teste-ec2-novo
     backstage.io/techdocs-ref: dir:.
     github.com/workflows: terraform-deploy.yml,start-instance.yml,stop-instance.yml,terraform-destroy.yml,deploy-dashboard,infracost.yml
     grafana/dashboard-selector: teste-ec2-novo
     grafana/alert-label-selector: "alertname=teste-ec2-novo"
-    cluster/instructions: |
-      ssh -i ./key-pair.pem -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 
-      "mkdir -p .kube && k3d kubeconfig get ${CLUSTER_NAME} > ~/.kube/config"
-      scp -i ./key-pair.pem ${EC2_USER}@${EC2_HOST}:~/.kube/config ./config
-      yq e 'del(.clusters[0].cluster.certificate-authority-data)' -i ~/.kube/config
-      yq e '.clusters[0].cluster.insecure-skip-tls-verify=true' config -i
-      yq e '.clusters[0].cluster.server = "https://${EC2_HOST}:38517"' config -i
+    cluster/instructions: "ssh -i ./key-pair.pem -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} \n\"mkdir -p .kube && k3d kubeconfig get ${CLUSTER_NAME} > ~/.kube/config\"\nscp -i ./key-pair.pem ${EC2_USER}@${EC2_HOST}:~/.kube/config ./config\nyq e 'del(.clusters[0].cluster.certificate-authority-data)' -i ~/.kube/config\nyq e '.clusters[0].cluster.insecure-skip-tls-verify=true' config -i\nyq e '.clusters[0].cluster.server = \"https://${EC2_HOST}:38517\"' config -i\n"
 spec:
   type: ec2
   lifecycle: experimental
   owner: "group:default/admin"
   environment: 'environment:default/platform_homolog_environment'
-  
