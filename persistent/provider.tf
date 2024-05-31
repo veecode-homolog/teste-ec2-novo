@@ -6,6 +6,7 @@ provider "aws" {
   default_tags {
     tags = {
       Template = "Platform_Ec2"
+      cluster = local.config.cluster_name
     }
   }
 }
